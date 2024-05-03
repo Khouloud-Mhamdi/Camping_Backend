@@ -3,14 +3,11 @@ package com.example.spring.camping.models.Activites;
 import com.example.spring.camping.models.Activites.Activite;
 import lombok.*;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
