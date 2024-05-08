@@ -20,10 +20,11 @@ public class Activite implements Serializable {
     private String NomActivite;
     private String Description;
     private String Date;
-    private String Participants;
+    private long Participants;
     private String Lieu;
-    private String Status;
-    private String Pre_requis;
+    private boolean Status;
+    @Enumerated(EnumType.STRING)
+    private Pre_requis Pre_requis;
 
     //@OneToMany(mappedBy = activite)
     //private List<Campsite> campsites;
