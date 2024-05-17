@@ -1,5 +1,6 @@
 package com.example.spring.camping.models.ManageUsers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,15 +17,16 @@ public class DetailsUser implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id_DetailsUser;
 
-    private String paysage ;
+    private TypePaysage paysage ;
     private String Couleur ;
-    private String alimentation ;
-    private  String musique ;
-    private String compagnement ;
-    private  String saison;
-    private String type_hebergement;
+    private Alimentation alimentation ;
 
+    private Accompagnement compagnement ;
+    private  Saison saison;
+    private Hebergement type_hebergement;
+    private Boolean status ;
     @OneToOne (mappedBy = "detailsUser")
+    @JsonIgnore
     private User user;
 
 }

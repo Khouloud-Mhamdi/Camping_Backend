@@ -36,6 +36,7 @@ public class User {
 
     private String adresse;
     private Long telephone;
+    private Boolean status ;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date_naissance;

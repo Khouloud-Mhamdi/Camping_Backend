@@ -24,7 +24,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query(value = "SELECT * FROM utilisateur u INNER JOIN roles r ON u.ID_ROLE = r.ID_ROLE WHERE r.name = :roleNom and (u.nom LIKE %:recherche% OR u.prenom LIKE %:recherche% OR u.email LIKE %:recherche% ) ",nativeQuery = true)
 
 	public List<User> RechercherAdherent(@Param(value = "roleNom") String role ,@Param(value = "recherche") String critere);
-	
+
+
+
+
+
 
 
 }
