@@ -45,7 +45,8 @@ public class User {
     @JoinColumn(name = "ID_ROLE", referencedColumnName = "ID_Role")
     private Role role;
 
-    @OneToOne
+    @OneToOne()
+    @JoinColumn(name = "detailsuser_id", nullable = true)
     private DetailsUser detailsUser;
 
     // Constructor for addUserRequest

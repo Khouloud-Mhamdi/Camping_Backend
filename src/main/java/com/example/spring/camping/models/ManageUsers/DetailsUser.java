@@ -24,6 +24,7 @@ public class DetailsUser implements Serializable {
     private Accompagnement compagnement ;
     private  Saison saison;
     private Hebergement type_hebergement;
+    
     private Boolean status ;
     @OneToOne (mappedBy = "detailsUser")
     @JsonIgnore

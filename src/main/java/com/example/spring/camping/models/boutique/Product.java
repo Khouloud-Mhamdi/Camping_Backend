@@ -1,5 +1,6 @@
 package com.example.spring.camping.models.boutique;
 
+import com.example.spring.camping.models.ManageUsers.Alimentation;
 import com.example.spring.camping.models.TypeProduct;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class Product implements Serializable {
     private TypeProduct Product_Type;
     private int quantiter;
     private long prix;
+
     @ManyToOne
     private CategoriesProduct id_Categorie;
     @OneToMany(mappedBy = "id_Commande")
