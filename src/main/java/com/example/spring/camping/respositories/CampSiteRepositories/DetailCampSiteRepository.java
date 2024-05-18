@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface DetailCampSiteRepository extends JpaRepository<DetailCampSite, Long> {
 
     CampSite findDetailCampSiteByCampSite(Long id);
+    DetailCampSite findByDescription(String description);
 }

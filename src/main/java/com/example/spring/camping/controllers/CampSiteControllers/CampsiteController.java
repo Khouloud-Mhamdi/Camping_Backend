@@ -26,9 +26,9 @@ public class CampsiteController {
         return campsiteService.getAll();
     }
 
-    @GetMapping("Rechercher/{id}")
+    @GetMapping("/Rechercher/{id}")
     public CampSite ConsulterCampsite(@PathVariable Long id) {
-        return campsiteService.getById(id);
+        return campsiteService.getByIdDetail(id);
     }
 
     @PutMapping("Modifier/{id}")
@@ -36,7 +36,7 @@ public class CampsiteController {
         return campsiteService.update(campSite);
     }
 
-    @DeleteMapping("Supprimer/{id}")
+    @PutMapping("Supprimer/{id}")
     public void SupprimerCampsite(@PathVariable Long id) {
         campsiteService.delete(id);
     }

@@ -30,8 +30,14 @@ public class DetailCampsiteServiceImpl  {
         return detailCampSiteRepository.findById(id).orElse(null);
     }
 
-    public DetailCampSite add(DetailCampSite detailCampSite) {
-        return detailCampSiteRepository.save(detailCampSite);
+    public boolean add(DetailCampSite detailCampSite,String lieu) {
+        CampSite campSite=campsiteRepo.findByLieu(lieu);
+        System.out.println(campSite);
+        detailCampSite.setCampSite(campSite);
+        campSite.setDetailCampSite(detailCampSite);
+        detailCampSiteRepository.save(detailCampSite);
+
+        return true;
     }
 
     public void delete(long id) {

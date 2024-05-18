@@ -1,12 +1,10 @@
 package com.example.spring.camping.models.CampLocations;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.LocalTime;
 import java.util.Set;
 
@@ -21,17 +19,19 @@ public class DetailCampSite {
 
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long detailcampid;
     String description;
     String coordonne;
     int duree;
     LocalTime heureDepart;
 
-
     @OneToMany(mappedBy = "detailCampSites")
+            @JsonIgnore
     Set<Photo> photos;
 
     @OneToOne(mappedBy = "detailCampSite")
+            @JsonIgnore
     CampSite campSite;
 
 }
