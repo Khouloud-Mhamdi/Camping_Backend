@@ -21,8 +21,10 @@ public class Panier implements Serializable {
     private Long idPanier;
     private int quantiter;
     private long prixUnitaire;
-    @OneToOne
-    private User id_User;
+
+    @OneToOne (mappedBy = "panier")
+    private User user;
+
     @ManyToOne
     private Product produit;
 }
