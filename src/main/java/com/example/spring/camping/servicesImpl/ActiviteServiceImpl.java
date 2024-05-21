@@ -29,6 +29,21 @@ public class ActiviteServiceImpl implements ActiviteService<Activite> {
     }
 
     @Override
+    public Activite updateActiviteById(long id,Activite activite) {
+        Activite act = activiteRepository.findById(id).get();
+        act.setNomActivite(activite.getNomActivite());
+        act.setDate(activite.getDate());
+        act.setLieu(activite.getLieu());
+        act.setStatus(activite.isStatus());
+        act.setParticipants(activite.getParticipants());
+        act.setDescription(activite.getDescription());
+        act.setPre_requis(activite.getPre_requis());
+        act.setPrix(activite.getPrix());
+        activiteRepository.save(act);
+        return act;
+    }
+
+    @Override
     public List<Activite> retrieveAll() {
         List<Activite> activite = activiteRepository.findAll();
         return activite;
@@ -73,5 +88,10 @@ public class ActiviteServiceImpl implements ActiviteService<Activite> {
     public Activite annulerActivite(Activite a) {
         return null;
     }
+
+   // @Override
+    //public Activite trouverActiviteAvecPlusParticipants() {
+    //    return activiteRepository.findTopByOrderByParticipantsDesc();
+    //}
 
 }

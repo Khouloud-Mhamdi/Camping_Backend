@@ -25,6 +25,7 @@ public class Activite implements Serializable {
     private boolean Status;
     @Enumerated(EnumType.STRING)
     private Pre_requis Pre_requis;
+    private float prix;
 
     //@OneToMany(mappedBy = activite)
     //private List<Campsite> campsites;
