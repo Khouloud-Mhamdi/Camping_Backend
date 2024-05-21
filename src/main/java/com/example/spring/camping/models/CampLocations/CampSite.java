@@ -2,7 +2,7 @@
 
 
 import com.example.spring.camping.models.CampLocations.Rule;
-import com.example.spring.camping.models.Paysage;
+import com.example.spring.camping.models.ManageUsers.TypePaysage;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -33,7 +33,7 @@ public class CampSite {
     boolean isArchived;
 
     @Enumerated(EnumType.STRING)
-    Paysage paysage;
+    TypePaysage paysage;
     @ManyToMany
     Set<Rule>rules;
 
