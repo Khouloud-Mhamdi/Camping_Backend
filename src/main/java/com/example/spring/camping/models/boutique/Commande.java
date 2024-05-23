@@ -32,6 +32,5 @@ public class Commande implements Serializable {
     private String payment_token;
     private long transaction;
     @OneToMany(mappedBy = "idProduct")
-    @JsonIgnore
     private List<Product> products;
 }
