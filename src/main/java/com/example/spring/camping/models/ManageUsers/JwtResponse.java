@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,14 +24,14 @@ public class JwtResponse implements Serializable {
 	private String adresse ;
 
 	private Date date_naissance;
-	private DetailsUser detailsUser;
+	private List<DetailsUser> detailsUser;
 
 	private String role ;
 
 
 
 
-    public JwtResponse(String token, Long id, String firstName, String lastName, String email, Long telephone, String adresse, Date dateNaissance, DetailsUser detailsUser, String role) {
+    public JwtResponse(String token, Long id, String firstName, String lastName, String email, Long telephone, String adresse, Date dateNaissance,  List<DetailsUser> detailsUser, String role) {
 		super();
 		this.token = token;
 		this.id = id;

@@ -25,7 +25,7 @@ public class Product implements Serializable {
     private String nomProduct;
     private String description;
     @Enumerated(EnumType.STRING)
-    private TypeProduct Product_Type;
+    private TypeProduct product_Type;
     private int quantiter;
     private long prix;
 
