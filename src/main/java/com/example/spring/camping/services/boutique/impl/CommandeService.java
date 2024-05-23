@@ -33,9 +33,8 @@ public class CommandeService implements ICommandeService {
 
     @Override
     public Commande addCommande(Commande f) {
-        List<Panier> paniers = panierRepository.findAll().stream().filter((v)->v.getProduit().getProduct_Type()==f.getType_Commande()).collect(Collectors.toList());
-        f.setIdUtilisateur(paniers.get(0).getUser().getId());
         Commande commande = commandeRepository.save(f);
+        List<Panier> paniers = panierRepository.findAll().stream().filter((v)->v.getProduit().getProduct_Type()==f.getType_Commande()).collect(Collectors.toList());
         if(paniers!=null){
             paniers.forEach((v->{
                 LigneDeCommande ligneDeCommande = new LigneDeCommande();

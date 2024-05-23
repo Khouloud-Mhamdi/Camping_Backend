@@ -1,5 +1,6 @@
 package com.example.spring.camping.models.boutique;
 
+import com.example.spring.camping.models.CampLocations.Photo;
 import com.example.spring.camping.models.ManageUsers.Alimentation;
 import com.example.spring.camping.models.TypeProduct;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -37,4 +38,6 @@ public class Product implements Serializable {
     @OneToMany(mappedBy = "produit")
     @JsonIgnore
     private List<Panier> paniers ;
+    @OneToOne(mappedBy = "product")
+    private Photo photo;
 }
