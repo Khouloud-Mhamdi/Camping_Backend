@@ -3,8 +3,10 @@ package com.example.spring.camping.controllers.CampSiteControllers;
 
 import com.example.spring.camping.models.CampLocations.DetailCampSite;
 import com.example.spring.camping.models.CampLocations.Photo;
+import com.example.spring.camping.models.boutique.Product;
 import com.example.spring.camping.respositories.CampSiteRepositories.DetailCampSiteRepository;
 import com.example.spring.camping.respositories.CampSiteRepositories.PhotoRepository;
+import com.example.spring.camping.respositories.boutique.ProductRepository;
 import com.example.spring.camping.servicesImpl.CampLocationsService.CloudinaryService;
 import com.example.spring.camping.servicesImpl.CampLocationsService.PhotoServiceImpl;
 import lombok.AllArgsConstructor;
@@ -35,6 +37,8 @@ public class PhotoController {
     PhotoRepository photoRepository;
     DetailCampSiteRepository detailCampSiteRepository;
     CloudinaryService cloudinaryService;
+    private final ProductRepository productRepository;
+
     @PostMapping("/add/{id_detail}")
     public ResponseEntity<Photo> addPhoto(@PathVariable Long id_detail,@RequestBody byte[] newPhoto) {
         Photo savedPhoto = photoService.add(newPhoto,id_detail);
@@ -108,6 +112,22 @@ public class PhotoController {
                 (String) result.get("public_id"));
         DetailCampSite detailCampSite=detailCampSiteRepository.findByDescription(descriptionDetail);
         image.setDetailCampSites(detailCampSite);
+        photoService.save(image);
+        return new ResponseEntity<>("image ajoutee avec succes", org.springframework.http.HttpStatus.valueOf(HttpStatus.SC_OK));
+    }
+//add to produit
+    @PostMapping("/uploadToproduct/{idProduit}")
+    public ResponseEntity<String>uploadEtAffecterProduit(@RequestParam MultipartFile multipartFile,@PathVariable Long  idProduit) throws IOException{
+        BufferedImage bi= ImageIO.read(multipartFile.getInputStream());
+        if (bi==null){
+            return new ResponseEntity<>("image non valide", org.springframework.http.HttpStatus.valueOf(HttpStatus.SC_BAD_REQUEST));
+        }
+        Map result=cloudinaryService.upload(multipartFile);
+        Photo image=new Photo((String) result.get("original_filename"),
+                (String) result.get("url"),
+                (String) result.get("public_id"));
+        Product produit = productRepository.getById(idProduit);
+        image.setProduct(produit);
         photoService.save(image);
         return new ResponseEntity<>("image ajoutee avec succes", org.springframework.http.HttpStatus.valueOf(HttpStatus.SC_OK));
     }

@@ -1,11 +1,13 @@
         package com.example.spring.camping.models.CampLocations;
 
+import com.example.spring.camping.models.boutique.Product;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 
-        @Entity
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -29,10 +31,14 @@ public class Photo {
     @ManyToOne
     private DetailCampSite detailCampSites;
 
-            public Photo(String original_filename, String url, String public_id) {
-                this.imageId=public_id;
-                this.imageUrl=url;
-                this.name=original_filename;
-            }
-        }
+    @OneToOne
+    @JsonIgnore
+    private Product product;
+
+    public Photo(String original_filename, String url, String public_id) {
+        this.imageId=public_id;
+        this.imageUrl=url;
+        this.name=original_filename;
+    }
+}
 

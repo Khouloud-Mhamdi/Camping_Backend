@@ -35,6 +35,10 @@ public class PhotoServiceImpl  {
         photo.setDetailCampSites(detailCampSite);
         return photoRepository.save(photo);
     }
+
+
+
+
     public Photo get(Long id) {
         return photoRepository.getById(id);
     }
