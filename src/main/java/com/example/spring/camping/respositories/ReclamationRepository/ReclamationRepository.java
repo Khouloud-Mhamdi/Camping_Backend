@@ -1,10 +1,9 @@
 // ReclamationRepository.java
 
-package com.example.spring.camping.respositories;
+package com.example.spring.camping.respositories.ReclamationRepository;
 
-import com.example.spring.camping.models.EStatusReclamation;
-import com.example.spring.camping.models.ManageUsers.Role;
-import com.example.spring.camping.models.Reclamation;
+import com.example.spring.camping.models.Reclamation.EStatusReclamation;
+import com.example.spring.camping.models.Reclamation.Reclamation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

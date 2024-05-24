@@ -1,9 +1,9 @@
-package com.example.spring.camping.servicesImpl;// ReclamationServiceImpl.java
+package com.example.spring.camping.servicesImpl.ReclamationServicesImpl;// ReclamationServiceImpl.java
 
-import com.example.spring.camping.models.EStatusReclamation;
-import com.example.spring.camping.models.Reclamation;
-import com.example.spring.camping.respositories.ReclamationRepository;
-import com.example.spring.camping.services.ReclamationService;
+import com.example.spring.camping.models.Reclamation.EStatusReclamation;
+import com.example.spring.camping.models.Reclamation.Reclamation;
+import com.example.spring.camping.respositories.ReclamationRepository.ReclamationRepository;
+import com.example.spring.camping.services.ReclamationServices.ReclamationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

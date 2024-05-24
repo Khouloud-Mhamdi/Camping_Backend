@@ -1,7 +1,7 @@
-package com.example.spring.camping.services;
+package com.example.spring.camping.services.ReclamationServices;
 
 
-import com.example.spring.camping.models.SuiviReclamation;
+import com.example.spring.camping.models.Reclamation.SuiviReclamation;
 
 import java.util.List;
 

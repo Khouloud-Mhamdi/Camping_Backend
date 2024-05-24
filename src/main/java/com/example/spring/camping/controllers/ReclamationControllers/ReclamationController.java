@@ -1,8 +1,8 @@
-package com.example.spring.camping.controllers;
+package com.example.spring.camping.controllers.ReclamationControllers;
 
-import com.example.spring.camping.models.EStatusReclamation;
-import com.example.spring.camping.models.Reclamation;
-import com.example.spring.camping.services.ReclamationService;
+import com.example.spring.camping.models.Reclamation.EStatusReclamation;
+import com.example.spring.camping.models.Reclamation.Reclamation;
+import com.example.spring.camping.services.ReclamationServices.ReclamationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

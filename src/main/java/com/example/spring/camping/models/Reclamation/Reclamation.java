@@ -1,4 +1,4 @@
-package com.example.spring.camping.models;
+package com.example.spring.camping.models.Reclamation;
 import java.sql.Date;
 
 import javax.persistence.*;

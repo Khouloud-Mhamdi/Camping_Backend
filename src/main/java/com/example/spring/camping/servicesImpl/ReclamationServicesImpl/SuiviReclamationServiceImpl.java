@@ -1,8 +1,8 @@
-package com.example.spring.camping.servicesImpl;
-import com.example.spring.camping.models.SuiviReclamation;
+package com.example.spring.camping.servicesImpl.ReclamationServicesImpl;
+import com.example.spring.camping.models.Reclamation.SuiviReclamation;
 
-import com.example.spring.camping.respositories.SuiviReclamationRepository;
-import com.example.spring.camping.services.SuiviReclamationService;
+import com.example.spring.camping.respositories.ReclamationRepository.SuiviReclamationRepository;
+import com.example.spring.camping.services.ReclamationServices.SuiviReclamationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

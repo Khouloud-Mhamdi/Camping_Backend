@@ -1,7 +1,7 @@
-package com.example.spring.camping.services;
+package com.example.spring.camping.services.ReclamationServices;
 
-import com.example.spring.camping.models.EStatusReclamation;
-import com.example.spring.camping.models.Reclamation;
+import com.example.spring.camping.models.Reclamation.EStatusReclamation;
+import com.example.spring.camping.models.Reclamation.Reclamation;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
