@@ -1,5 +1,6 @@
 package com.example.spring.camping.servicesImpl;// ReclamationServiceImpl.java
 
+import com.example.spring.camping.models.EStatusReclamation;
 import com.example.spring.camping.models.Reclamation;
 import com.example.spring.camping.respositories.ReclamationRepository;
 import com.example.spring.camping.services.ReclamationService;
@@ -7,15 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ReclamationServiceImpl implements ReclamationService {
     @Autowired
     private ReclamationRepository reclamationRepository;
+
+    //CRUD
+    @Override
+    public List<Reclamation> getAllReclamations() {
+        return reclamationRepository.findAll();
+    }
 
     @Override
     public Reclamation saveReclamation(Reclamation reclamation) {
@@ -32,6 +36,8 @@ public class ReclamationServiceImpl implements ReclamationService {
         reclamationRepository.deleteById(id);
     }
 
+
+    //GetReclamationBy
     @Override
     public Reclamation getReclamationById(long id) {
         Optional<Reclamation> optionalReclamation = reclamationRepository.findById(id);
@@ -39,38 +45,41 @@ public class ReclamationServiceImpl implements ReclamationService {
     }
 
     @Override
-    public List<Reclamation> getAllReclamations() {
-        return reclamationRepository.findAll();
+    public List<Reclamation> getReclamationsByClientId(long idClient) {
+        return reclamationRepository.findByIdClient(idClient);
     }
 
     @Override
-    public Map<String, Float> getStatisticsByReclamationType() {
-        // Implement logic to get statistics by reclamation type
-        return new HashMap<>(); // Placeholder, implement your logic here
+    public List<Reclamation> getReclamationsByStatus(EStatusReclamation status) {
+        return reclamationRepository.findByStatutReclamation(status);
+    }
+
+    //Statistics
+    public Map<EStatusReclamation, Float> getStatisticsByReclamationType() {
+        List<Object[]> result = reclamationRepository.getStatisticsByReclamationType();
+        Map<EStatusReclamation, Float> statistics = new EnumMap<>(EStatusReclamation.class);
+
+        for (Object[] objects : result) {
+            EStatusReclamation status = (EStatusReclamation) objects[0];
+            Long count = (Long) objects[1];
+            statistics.put(status, count.floatValue());
+        }
+
+        return statistics;
     }
 
     @Override
     public Map<String, Integer> getReclamationsCountByMonth() {
-        // Implement logic to get reclamations count by month
-        return new HashMap<>(); // Placeholder, implement your logic here
+        return new HashMap<>();
     }
 
-    @Override
-    public List<Reclamation> getReclamationsByClientId(long idClient) {
-        // Implement logic to get reclamations by client id
-        return reclamationRepository.findByIdClient(idClient); // Placeholder, implement your logic here
-    }
 
     @Override
-    public List<Reclamation> getReclamationsByStatus(String status) {
-        // Implement logic to get reclamations by status
-        return reclamationRepository.findByStatutReclamation(status); // Placeholder, implement your logic here
+    public int getPendingReclamationNumber() {
+        return reclamationRepository.countByStatutReclamation("Pending");
     }
 
-    @Override
-    public int getEnAttenteReclamationNumber() {
-        return reclamationRepository.countByStatutReclamation("En attente");
-    }
+
 
     @Override
     public int getSolvedReclamationNumberThisMonth() {

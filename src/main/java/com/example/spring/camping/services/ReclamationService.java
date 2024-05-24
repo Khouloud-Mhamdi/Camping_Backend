@@ -1,5 +1,6 @@
 package com.example.spring.camping.services;
 
+import com.example.spring.camping.models.EStatusReclamation;
 import com.example.spring.camping.models.Reclamation;
 import org.springframework.stereotype.Repository;
 
@@ -8,19 +9,23 @@ import java.util.Map;
 
 @Repository
 public interface ReclamationService {
+
+    //CRUD
     Reclamation saveReclamation(Reclamation reclamation);
     Reclamation updateReclamation(Reclamation reclamation);
     void deleteReclamation(long id);
-    Reclamation getReclamationById(long id);
     List<Reclamation> getAllReclamations();
 
-    Map<String, Float> getStatisticsByReclamationType();
-    Map<String, Integer> getReclamationsCountByMonth();
+    //GetReclamationBy
+    Reclamation getReclamationById(long id);
+    List<Reclamation> getReclamationsByStatus(EStatusReclamation status);
     List<Reclamation> getReclamationsByClientId(long idClient);
-    List<Reclamation> getReclamationsByStatus(String status);
-    // Check description content and classify the reclamation directly
 
-    int getEnAttenteReclamationNumber();
+
+    //Statistics
+    Map<EStatusReclamation, Float> getStatisticsByReclamationType();
+    Map<String, Integer> getReclamationsCountByMonth();
+    int getPendingReclamationNumber();
     int getSolvedReclamationNumberThisMonth();
     int getSolvedReclamationNumberLastMonth();
 }

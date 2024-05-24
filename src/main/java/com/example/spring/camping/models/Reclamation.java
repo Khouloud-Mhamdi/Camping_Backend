@@ -32,7 +32,7 @@ public class Reclamation {
     private String descriptionReclamation;
 
     @Column(name = "Statut_Reclamation")
-    private String statutReclamation;
+    private EStatusReclamation statutReclamation;
 
     @Column(name = "Date_Resolution")
     private Date dateResolution;

@@ -1,5 +1,6 @@
 package com.example.spring.camping.controllers;
 
+import com.example.spring.camping.models.EStatusReclamation;
 import com.example.spring.camping.models.Reclamation;
 import com.example.spring.camping.services.ReclamationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,28 +15,25 @@ import java.util.Map;
 @RequestMapping("/api/reclamations")
 public class ReclamationController {
 
+
+
     @Autowired
     private ReclamationService reclamationService;
+
+
+    //CRUD
 
     @PostMapping("/add")
     public ResponseEntity<Reclamation> createReclamation(@RequestBody Reclamation reclamation) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reclamationService.saveReclamation(reclamation));
     }
 
+
     @GetMapping("/read")
     public ResponseEntity<List<Reclamation>> getAllReclamations() {
         return ResponseEntity.ok().body(reclamationService.getAllReclamations());
     }
 
-    @GetMapping("/reclamation/{id}")
-    public ResponseEntity<Reclamation> getReclamationById(@PathVariable long id) {
-        Reclamation reclamation = reclamationService.getReclamationById(id);
-        if (reclamation != null) {
-            return ResponseEntity.ok().body(reclamation);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 
     @PutMapping("/updatereclamation/{id}")
     public ResponseEntity<Reclamation> updateReclamation(@PathVariable long id, @RequestBody Reclamation reclamationDetails) {
@@ -65,11 +63,39 @@ public class ReclamationController {
         }
     }
 
+    @DeleteMapping("/archive/{id}")
+    public ResponseEntity<Void> archivereclamation(@PathVariable long id) {
+        Reclamation reclamation = reclamationService.getReclamationById(id);
+        if (reclamation != null) {
+            reclamationService.deleteReclamation(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
+
+
+    //getReclamationBy
+    @GetMapping("/reclamation/{id}")
+    public ResponseEntity<Reclamation> getReclamationById(@PathVariable long id) {
+        Reclamation reclamation = reclamationService.getReclamationById(id);
+        if (reclamation != null) {
+            return ResponseEntity.ok().body(reclamation);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
     @GetMapping("/statistics/reclamation-type")
-    public ResponseEntity<Map<String, Float>> getStatisticsByReclamationType() {
-        Map<String, Float> statistics = reclamationService.getStatisticsByReclamationType();
+    public ResponseEntity<Map<EStatusReclamation, Float>> getStatisticsByReclamationType() {
+        Map<EStatusReclamation, Float> statistics = reclamationService.getStatisticsByReclamationType();
         return ResponseEntity.ok().body(statistics);
     }
+
 
     @GetMapping("/statistics/reclamations-count-by-month")
     public ResponseEntity<Map<String, Integer>> getReclamationsCountByMonth() {
@@ -77,21 +103,21 @@ public class ReclamationController {
         return ResponseEntity.ok().body(statistics);
     }
 
-    @GetMapping("/client/{idClient}") // Change the path variable name to match the method parameter
-    public ResponseEntity<List<Reclamation>> getReclamationsByClientId(@PathVariable long idClient) { // Change the path variable name
+    @GetMapping("/client/{idClient}")
+    public ResponseEntity<List<Reclamation>> getReclamationsByClientId(@PathVariable long idClient) {
         List<Reclamation> reclamations = reclamationService.getReclamationsByClientId(idClient);
         return ResponseEntity.ok().body(reclamations);
     }
 
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<Reclamation>> getReclamationsByStatus(@PathVariable String status) {
+    public ResponseEntity<List<Reclamation>> getReclamationsByStatus(@PathVariable EStatusReclamation status) {
         List<Reclamation> reclamations = reclamationService.getReclamationsByStatus(status);
         return ResponseEntity.ok().body(reclamations);
     }
 
     @GetMapping("/statistics/enattente-count")
-    public ResponseEntity<Integer> getEnAttenteReclamationNumber() {
-        int count = reclamationService.getEnAttenteReclamationNumber();
+    public ResponseEntity<Integer> getPendingReclamationNumber() {
+        int count = reclamationService.getPendingReclamationNumber();
         System.out.println(count);
 
         return ResponseEntity.ok().body(count);
