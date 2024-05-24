@@ -1,12 +1,14 @@
 package com.example.spring.camping.models.ManageUsers;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import com.example.spring.camping.models.ManageUsers.Role;
+import com.example.spring.camping.models.boutique.Panier;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
@@ -36,14 +38,19 @@ public class User {
 
     private String adresse;
     private Long telephone;
+    private Boolean status ;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date_naissance;
 
+    @OneToOne
+    Panier panier;
     @ManyToOne
     @JoinColumn(name = "ID_ROLE", referencedColumnName = "ID_Role")
     private Role role;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL , orphanRemoval = true)
+    private List<DetailsUser> detailsUser;
     // Constructor for addUserRequest
     public User(@NotBlank String nom, @NotBlank String prenom, @NotBlank @Email String email,
                 Long telephone, @NotBlank String encode) {
