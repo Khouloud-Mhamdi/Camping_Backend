@@ -140,6 +140,7 @@ public class DetailsUserServiceImpl implements ICrud<DetailsUser> {
                 }
             }
         }
+        recommendedProducts.removeIf(product -> product.getQuantiter() == 0);
 
         return recommendedProducts;
     }

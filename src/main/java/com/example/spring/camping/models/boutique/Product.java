@@ -22,7 +22,7 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProduct;
-    @Column(unique = true)
+
     private String nomProduct;
     private String description;
     @Enumerated(EnumType.STRING)
