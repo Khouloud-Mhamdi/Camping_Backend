@@ -30,15 +30,20 @@ public class ProductController {
 
     @PostMapping("/add-products")
     public Product addProduct(@RequestBody Product e) {
+        e.setArchiver(false);
         Product products = productService.addProduct(e);
         return products;
     }
-
-
 
     @PutMapping("/update-products")
     public Product updateProduct(@RequestBody Product e){
         Product products = productService.updateProduct(e);
         return products;
     }
+    @DeleteMapping("/delete-products/{idProduct}")
+    public void deleteProduct(@PathVariable("idProduct") Long idProduct){
+         productService.deleteProduct(idProduct);
+    }
+
+
 }

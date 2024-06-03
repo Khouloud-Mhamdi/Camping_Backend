@@ -22,14 +22,14 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProduct;
-    @Column(unique = true)
     private String nomProduct;
     private String description;
     @Enumerated(EnumType.STRING)
     private TypeProduct Product_Type;
     private int quantiter;
     private long prix;
-
+    private long prixdachat ;
+    private boolean archiver;
     @ManyToOne
     private CategoriesProduct id_Categorie;
     @OneToMany(mappedBy = "id_Commande")

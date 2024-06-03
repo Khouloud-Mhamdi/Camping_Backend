@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -15,7 +16,7 @@ public class ProductService implements IProductService {
     ProductRepository productRepository;
     @Override
     public List<Product> retrieveAllProduct() {
-        return productRepository.findAll();
+        return productRepository.findAll().stream().filter(product -> !product.isArchiver()).collect(Collectors.toList());
     }
 
     @Override
@@ -31,5 +32,12 @@ public class ProductService implements IProductService {
     @Override
     public Product retrieveProduct(Long idProduct) {
         return productRepository.findById(idProduct).orElse(null);
+    }
+
+    @Override
+    public void deleteProduct(Long idProduct) {
+        Product product = productRepository.getById(idProduct);
+        product.setArchiver(true);
+        productRepository.save(product);
     }
 }
