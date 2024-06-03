@@ -8,11 +8,16 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 
+import java.util.List;
+
 public interface CommandeRepository extends JpaRepository<Commande,Long> {
+
     @Query("SELECT SUM(s.total_Commande) FROM Commande s WHERE  s.type_Commande=:typeC AND s.date_Commande BETWEEN :startDate AND :endDate")
     Double findTotalCommandeBetweenDates(@Param("startDate") Date startDate, @Param("endDate") Date endDate,@Param("typeC") TypeProduct typeC);
 
     @Query("SELECT COUNT(s) FROM Commande s WHERE s.type_Commande=:typeC AND s.date_Commande BETWEEN :startDate AND :endDate")
     Long countCpmmandeBetweenDates(@Param("startDate") Date startDate, @Param("endDate") Date endDate,@Param("typeC") TypeProduct typeC);
+    List<Commande> findByIdUtilisateur(Long idUser);
+
 
 }

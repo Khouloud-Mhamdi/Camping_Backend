@@ -1,6 +1,7 @@
 package com.example.spring.camping.servicesImpl;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -147,9 +148,14 @@ public class UserServiceImpl implements ICrud<User>  {
 		Optional<User> u = utilRepo.findById(id);
 		u.get().setStatus(false);
 		utilRepo.save(u.get());
-		DetailsUser detailsUser = u.get().getDetailsUser();
-		detailsUser.setStatus(false);
-		detailsUserRepository.save(detailsUser);
+		List<DetailsUser> detailsUser = u.get().getDetailsUser();
+		for (int i=0;i<detailsUser.size();i++)
+		{
+			detailsUser.get(i).setStatus(false);
+			detailsUserRepository.save(detailsUser.get(i));
+		}
+
+
 
 	}
 
@@ -168,8 +174,16 @@ public class UserServiceImpl implements ICrud<User>  {
 	public void AffecterDetailsUser (long idUser , DetailsUser detailsUser)
 	{
 		User u = utilRepo.getById(idUser);
-		u.setDetailsUser(detailsUser);
-		utilRepo.save(u);
+
+		List<DetailsUser> Details = new ArrayList<>();
+
+		if (u.getDetailsUser()!= null)
+		{
+			Details = u.getDetailsUser();
+		}
+		Details.add(detailsUser);
+		detailsUserRepository.save(detailsUser);
+
 	}
 	public boolean changerMotDePasse(Long Id, String AncienPassword, String NewPassword) {
 		Optional<User> userOptional = utilRepo.findById(Id);

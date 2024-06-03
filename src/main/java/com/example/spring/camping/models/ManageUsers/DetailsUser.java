@@ -26,7 +26,8 @@ public class DetailsUser implements Serializable {
     private Hebergement type_hebergement;
     
     private Boolean status ;
-    @OneToOne (mappedBy = "detailsUser")
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;
 

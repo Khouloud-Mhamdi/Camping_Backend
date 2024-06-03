@@ -2,6 +2,7 @@ package com.example.spring.camping.controllers;
 
 
 import com.example.spring.camping.models.ManageUsers.DetailsUser;
+import com.example.spring.camping.models.boutique.Product;
 import com.example.spring.camping.servicesImpl.DetailsUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -56,7 +57,11 @@ import java.util.List;
         return ResponseEntity.ok(favoriteAccommodationTypeStatistics);
     }
 
-
+    @GetMapping("/recommenderProduits/{userId}")
+    public List<Product> getRecommendations(@PathVariable Long userId) {
+        List<Product> recommendedProducts = detailsUserService.recommendProducts(userId);
+        return recommendedProducts;
+    }
 
 
 
