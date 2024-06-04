@@ -1,8 +1,11 @@
 package com.example.spring.camping.servicesImpl.ReservationServiceImpl;
 
+import com.example.spring.camping.models.CampLocations.CampSite;
+import com.example.spring.camping.models.Reservation.Check_In;
 import com.example.spring.camping.models.Reservation.DetailReservation;
 import com.example.spring.camping.models.Reservation.Reservation;
-import com.example.spring.camping.models.Reservation.Status;
+import com.example.spring.camping.respositories.CampSiteRepositories.CampsiteRepository;
+import com.example.spring.camping.respositories.ReservationRepository.Check_InRepo;
 import com.example.spring.camping.respositories.ReservationRepository.DetailRepository;
 import com.example.spring.camping.respositories.ReservationRepository.ReservationRepository;
 import com.example.spring.camping.services.ReservationService.IReservationService;
@@ -13,10 +16,11 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.spring.camping.models.Reservation.Status.IN_PROGRESS;
+
 
 @Service
 @AllArgsConstructor
@@ -27,14 +31,13 @@ public class ReservationService implements IReservationService {
     ReservationRepository reservationRepository;
 
     DetailRepository detailRepository;
+    Check_InRepo checkInRepo;
 
-
-
+   CampsiteRepository campsiteRepository;
 
     @Override
     public Reservation addReservation(Reservation reservation) {
         DetailReservation detailReservation=reservation.getDetailReservation();
-        detailReservation.setStatusReservation(IN_PROGRESS);
         detailRepository.save(detailReservation);
         return reservationRepository.save(reservation);
 
@@ -49,7 +52,7 @@ public class ReservationService implements IReservationService {
 
         // Update reservation details
         reservation.setCampeurId(newReservationDetails.getCampeurId());
-        reservation.setCampsiteId(newReservationDetails.getCampsiteId());
+        reservation.setCampSite(newReservationDetails.getCampSite());
 
         // Retrieve the detail reservation associated with this reservation
         DetailReservation detailReservation = reservation.getDetailReservation();
@@ -58,7 +61,7 @@ public class ReservationService implements IReservationService {
         detailReservation.setDateArrivee(newReservationDetails.getDetailReservation().getDateArrivee());
         detailReservation.setDateDepart(newReservationDetails.getDetailReservation().getDateDepart());
         detailReservation.setNombreCampeurs(newReservationDetails.getDetailReservation().getNombreCampeurs());
-        detailReservation.setStatusReservation(newReservationDetails.getDetailReservation().getStatusReservation());
+
         detailReservation.setPrix(newReservationDetails.getDetailReservation().getPrix());
 
         // Save the updated reservation and detail reservation
@@ -72,7 +75,7 @@ public class ReservationService implements IReservationService {
     @Override
     public void archiveReservation(Long idReservation) {
         Reservation reservation = reservationRepository.findById(idReservation).get();
-        reservation.getDetailReservation().setStatusReservation(Status.CANCELLED);
+
     }
 
     @Override
@@ -98,10 +101,10 @@ public class ReservationService implements IReservationService {
     public String cancelReservation(Long idReservation) {
         Reservation reservation=reservationRepository.findById(idReservation).get();
         DetailReservation detailReservation=  reservation.getDetailReservation();
-        detailReservation.setStatusReservation(Status.CANCELLED);
+
         detailRepository.save(detailReservation);
         reservationRepository.save(reservation);
-        return detailReservation.getStatusReservation().toString();
+        return null;
     }
 
     @Override
@@ -109,18 +112,28 @@ public class ReservationService implements IReservationService {
 
         Reservation reservation=reservationRepository.findById(idReservation).get();
         DetailReservation detailReservation=  reservation.getDetailReservation();
-        detailReservation.setStatusReservation(Status.CONFIRMED);
 
-        return detailReservation.getStatusReservation().toString();
+
+        return null;
     }
 
     @Override
-    public boolean checkAvailability(Date startDate, Date endDate) {
+    public String checkAvailability(Date startDate, Date endDate, long campsiteId) {
 
-        List<Reservation> overlappingReservations = reservationRepository.findOverlappingReservations(startDate, endDate);
+        CampSite campSite=campsiteRepository.findById(campsiteId).get();
+
+        List<Date> reservationDates = getDatesBetween(startDate,endDate);
+        for (Date date :reservationDates){
+        for (Check_In checkIn:checkInRepo.findAll()){
+            if (checkIn.getNbPlaceDispo()==0){
+
+                return "la date :"+ date +"n'est pas disponible";
+
+            }
+        }}
 
 
-        return overlappingReservations.isEmpty();
+        return "la date est disponible ";
     }
 
     @Override
@@ -133,6 +146,26 @@ public class ReservationService implements IReservationService {
         return null;
     }
 
+
+    public static List<Date> getDatesBetween(Date startDate, Date endDate) {
+        List<Date> dates = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+
+        while (!calendar.getTime().after(endDate)) {
+            // Add the current date to the list
+            dates.add(calendar.getTime());
+            // Increment the calendar date by one day
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        // Adding endDate to the list if it's not already included
+        if (!dates.contains(endDate)) {
+            dates.add(endDate);
+        }
+
+        return dates;
+    }
 
 
     @Override
@@ -177,10 +210,14 @@ public class ReservationService implements IReservationService {
         return nb;
     }
 
-    @Override
-    public int nbrReservationInprogress() {
-        return reservationRepository.findCountInprogress();
+    public int getOldReservations() {
+        LocalDate localDate = LocalDate.now();
+        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        int nb = reservationRepository.findOldReservation(date);
+
+        return nb;
     }
+
 
     @Override
     public List<Integer> getNbrReservationByMonth() {
@@ -201,5 +238,48 @@ public class ReservationService implements IReservationService {
         System.out.println(data);
         return data;
     }
+    private Long duree(Date startDate, Date endDate) {
+        long diff = endDate.getTime() - startDate.getTime();
+        return diff / (1000 * 60 * 60 * 24);
+    }
+
+    @Override
+    public Reservation reserver(Reservation reservation,long campsiteId) {
+        Reservation savedReservation=reservation;
+
+        CampSite campSite=campsiteRepository.findById(campsiteId).get();
+
+        List<Date> reservationDates = getDatesBetween(savedReservation.getDetailReservation().getDateArrivee(), savedReservation.getDetailReservation().getDateDepart());
+
+
+            // If no existing reservation details, create new check-in entries
+            for (Date date : reservationDates) {
+                if (checkInRepo.findByDateAndCampSite_Campsiteid(date,campsiteId) == null) {
+                Check_In checkIn = new Check_In();
+                checkIn.setCampSite(campsiteRepository.findById(campsiteId).get());
+                checkIn.setNbPlaceDispo(campSite.getPlaces() - savedReservation.getDetailReservation().getNombreCampeurs());
+                checkIn.setDate(date);
+                checkIn.setReservation(savedReservation);
+                checkInRepo.save(checkIn);
+
+               } else {
+
+            // If there are existing reservation details, update check-in entries
+
+
+                Check_In checkIn = checkInRepo.findByDateAndCampSite_Campsiteid(date,campsiteId);
+                if (checkIn.getNbPlaceDispo() == 0) {
+                    return null; // No available places for the given date
+                } else {
+
+                    checkIn.setNbPlaceDispo(checkIn.getNbPlaceDispo() - savedReservation.getDetailReservation().getNombreCampeurs());
+                    checkInRepo.save(checkIn);
+                }
+            }
+            addReservation(savedReservation);
+        }
+        return savedReservation;
+    }
+
 
 }

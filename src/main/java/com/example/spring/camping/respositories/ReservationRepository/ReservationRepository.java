@@ -1,12 +1,10 @@
 package com.example.spring.camping.respositories.ReservationRepository;
 
 import com.example.spring.camping.models.Reservation.Reservation;
-import com.example.spring.camping.models.Reservation.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -18,12 +16,12 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
     @Query("SELECT Count(r) FROM Reservation r WHERE (:startDate <= r.detailReservation.dateArrivee)")
     int findFutureReservation(@Param("startDate") Date startDate);
 
-
+    @Query("SELECT Count(r) FROM Reservation r WHERE (:endDate >= r.detailReservation.dateDepart)")
+    int findOldReservation(@Param("endDate") Date endDate);
     @Query("SELECT count(DISTINCT r.campeurId) FROM Reservation r ")
     int findUsers();
-    @Query("SELECT COUNT(r) FROM Reservation r WHERE r.detailReservation.statusReservation = 'IN_PROGRESS'")
-    int findCountInprogress();
-    @Query("SELECT count(DISTINCT r.campsiteId) FROM Reservation r ")
+
+    @Query("SELECT count(DISTINCT r.campSite) FROM Reservation r ")
     int findcampsites();
 
 
