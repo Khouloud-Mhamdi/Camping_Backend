@@ -44,6 +44,10 @@ public class CampSite {
 
     @Enumerated(EnumType.STRING)
     TypePaysage paysage;
+
+
+    @OneToOne
+    Check_In checkIn;
   /**  @ManyToMany  (cascade = CascadeType.ALL)
     @JsonIgnore
     Set<Rule>rules;**/
