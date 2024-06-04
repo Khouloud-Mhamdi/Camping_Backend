@@ -1,5 +1,6 @@
         package com.example.spring.camping.models.CampLocations;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -27,6 +28,7 @@ public class Photo {
     String name;
 
     @ManyToOne
+    @JsonIgnore
     private DetailCampSite detailCampSites;
 
             public Photo(String original_filename, String url, String public_id) {

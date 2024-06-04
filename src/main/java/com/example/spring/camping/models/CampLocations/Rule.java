@@ -23,12 +23,13 @@ public class Rule {
     Long numero;
     String description;
 
-
-    @ManyToMany(mappedBy = "rules")
-    @JsonIgnore
+/*
+    @ManyToMany(mappedBy = "rules",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     Set <CampSite> campSites;
-
-
+*/
+    @ManyToOne
+        @JsonIgnore
+    CampSite campSite;
 
 }
 

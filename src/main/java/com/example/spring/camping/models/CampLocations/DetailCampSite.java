@@ -27,7 +27,8 @@ public class DetailCampSite {
     LocalTime heureDepart;
 
     @OneToMany(mappedBy = "detailCampSites")
-            @JsonIgnore
+          //hedhi tetnaha
+            //@JsonIgnore
     Set<Photo> photos;
 
     @OneToOne(mappedBy = "detailCampSite")

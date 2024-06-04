@@ -20,9 +20,9 @@ public class DetailCampsiteController {
 
     DetailCampsiteServiceImpl detailCampsiteService;
 
-    @PostMapping("/add/{lieu}")
-    public boolean addDetail (@RequestBody DetailCampSite detailCampSite,@PathVariable String lieu){
-        return detailCampsiteService.add(detailCampSite,lieu);
+    @PostMapping("/add/{idcamp}")
+    public boolean addDetail (@RequestBody DetailCampSite detailCampSite,@PathVariable Long idcamp){
+        return detailCampsiteService.add(detailCampSite,idcamp);
     }
 
 
@@ -41,6 +41,12 @@ public class DetailCampsiteController {
     @PutMapping("Supprimer/{id}")
     public void SupprimerDetail(@PathVariable Long id) {
         detailCampsiteService.delete(id);
+    }
+
+
+    @GetMapping("/RechercherByCampsite/{id_camp}")
+    public DetailCampSite findByCampSite(@PathVariable Long id_camp) {
+        return detailCampsiteService.findByCampSite(id_camp);
     }
 
 
