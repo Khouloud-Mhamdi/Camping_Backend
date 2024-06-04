@@ -26,6 +26,8 @@ public interface ReclamationService {
     Map<EStatusReclamation, Float> getStatisticsByReclamationType();
     Map<String, Integer> getReclamationsCountByMonth();
     int getPendingReclamationNumber();
-    int getSolvedReclamationNumberThisMonth();
     int getSolvedReclamationNumberLastMonth();
+    int getSolvedReclamationNumberThisMonth();
+    int getReclamationNumberCreatedToday();
+
 }

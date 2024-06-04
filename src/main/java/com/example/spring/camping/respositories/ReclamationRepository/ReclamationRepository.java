@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public interface ReclamationRepository extends JpaRepository<Reclamation, Long> {
@@ -23,4 +24,9 @@ public interface ReclamationRepository extends JpaRepository<Reclamation, Long> 
 
     @Query("SELECT r.statutReclamation, COUNT(r) FROM Reclamation r GROUP BY r.statutReclamation")
     List<Object[]> getStatisticsByReclamationType();
+
+
+    int countByDateReclamationBetween(Date startDate, Date endDate);
+
+
 }

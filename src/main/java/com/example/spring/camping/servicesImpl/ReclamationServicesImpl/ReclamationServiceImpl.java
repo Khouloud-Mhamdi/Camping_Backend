@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -93,5 +96,17 @@ public class ReclamationServiceImpl implements ReclamationService {
         LocalDate firstDayOfLastMonth = LocalDate.now().minusMonths(1).withDayOfMonth(1);
         LocalDate lastDayOfLastMonth = LocalDate.now().minusMonths(1).withDayOfMonth(LocalDate.now().minusMonths(1).lengthOfMonth());
         return reclamationRepository.countByStatutReclamationAndDateResolutionBetween("Résolu", firstDayOfLastMonth, lastDayOfLastMonth);
+    }
+
+
+    @Override
+    public int getReclamationNumberCreatedToday() {
+        LocalDateTime startOfToday = LocalDate.now().atStartOfDay();
+        LocalDateTime endOfToday = LocalDateTime.now();
+
+        Date startDate = Date.from(startOfToday.atZone(ZoneId.systemDefault()).toInstant());
+        Date endDate = Date.from(endOfToday.atZone(ZoneId.systemDefault()).toInstant());
+
+        return reclamationRepository.countByDateReclamationBetween(startDate, endDate);
     }
 }

@@ -28,4 +28,7 @@ public class SuiviReclamation {
     @Column(name = "Desc_suivi")
     private String descSuivi;
 
+    @Column(name = "ByWho")
+    private Long ByWho;
+
 }

@@ -134,4 +134,10 @@ public class ReclamationController {
         int count = reclamationService.getSolvedReclamationNumberLastMonth();
         return ResponseEntity.ok().body(count);
     }
+
+    @GetMapping("/statistics/created-today-count")
+    public ResponseEntity<Integer> getReclamationNumberCreatedToday() {
+        int count = reclamationService.getReclamationNumberCreatedToday();
+        return ResponseEntity.ok().body(count);
+    }
 }
