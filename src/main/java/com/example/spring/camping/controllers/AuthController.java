@@ -79,7 +79,7 @@ public class AuthController {
 				.orElse(null);
 		System.out.println("userDetails ------- "+ userDetails.toString());
 		return ResponseEntity.ok(
-				new JwtResponse(jwt, userDetails.getId(), userDetails.getFirstName(), userDetails.getLastName(), userDetails.getEmail() , userDetails.getTelephone(),userDetails.getAdresse() ,userDetails.getDate_naissance(), userDetails.getDetailsUser(),role));
+				new JwtResponse(jwt, userDetails.getId(), userDetails.getFirstName(), userDetails.getLastName(), userDetails.getEmail() , userDetails.getTelephone(),userDetails.getAdresse() ,userDetails.getDate_naissance(), userDetails.getDetailsUser(),role , userDetails.getPhoto() ));
 
 	}
 	//ADD ADMIN

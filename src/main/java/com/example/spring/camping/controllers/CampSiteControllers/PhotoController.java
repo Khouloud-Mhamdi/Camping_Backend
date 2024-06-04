@@ -3,9 +3,11 @@ package com.example.spring.camping.controllers.CampSiteControllers;
 
 import com.example.spring.camping.models.CampLocations.DetailCampSite;
 import com.example.spring.camping.models.CampLocations.Photo;
+import com.example.spring.camping.models.ManageUsers.User;
 import com.example.spring.camping.models.boutique.Product;
 import com.example.spring.camping.respositories.CampSiteRepositories.DetailCampSiteRepository;
 import com.example.spring.camping.respositories.CampSiteRepositories.PhotoRepository;
+import com.example.spring.camping.respositories.UserRepository;
 import com.example.spring.camping.respositories.boutique.ProductRepository;
 import com.example.spring.camping.servicesImpl.CampLocationsService.CloudinaryService;
 import com.example.spring.camping.servicesImpl.CampLocationsService.PhotoServiceImpl;
@@ -38,6 +40,7 @@ public class PhotoController {
     DetailCampSiteRepository detailCampSiteRepository;
     CloudinaryService cloudinaryService;
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
     @PostMapping("/add/{id_detail}")
     public ResponseEntity<Photo> addPhoto(@PathVariable Long id_detail,@RequestBody byte[] newPhoto) {
@@ -131,6 +134,23 @@ public class PhotoController {
         photoService.save(image);
         return new ResponseEntity<>("image ajoutee avec succes", org.springframework.http.HttpStatus.valueOf(HttpStatus.SC_OK));
     }
+    //add to user
+    @PostMapping("/uploadTouser/{email}")
+    public ResponseEntity<String>uploadEtAffecterUser(@RequestParam MultipartFile multipartFile,@PathVariable String email ) throws IOException{
+        BufferedImage bi= ImageIO.read(multipartFile.getInputStream());
+        if (bi==null){
+            return new ResponseEntity<>("image non valide", org.springframework.http.HttpStatus.valueOf(HttpStatus.SC_BAD_REQUEST));
+        }
+        Map result=cloudinaryService.upload(multipartFile);
+        Photo image=new Photo((String) result.get("original_filename"),
+                (String) result.get("url"),
+                (String) result.get("public_id"));
+        Optional<User> user = userRepository.findByEmail(email);
+       image.setUser(user.get());
+        photoService.save(image);
+        return new ResponseEntity<>("image ajoutee avec succes", org.springframework.http.HttpStatus.valueOf(HttpStatus.SC_OK));
+    }
+
 //Basic add
     @PostMapping("/upload")
     public ResponseEntity<String>upload(@RequestParam MultipartFile multipartFile) throws IOException{
@@ -162,6 +182,7 @@ public class PhotoController {
         photoService.delete(id);
         return new  ResponseEntity<>("image supprimee", org.springframework.http.HttpStatus.valueOf(HttpStatus.SC_OK)) ;
     }
+
 
 
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 
+import com.example.spring.camping.models.CampLocations.Photo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,12 +34,13 @@ public class UserDetailsImpl implements UserDetails {
 
 	private Date date_naissance;
 	private List<DetailsUser> detailsUser;
+	private Photo photo;
 	private GrantedAuthority authority;
 
 
 	public static UserDetailsImpl build (User user ) {
 		GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().getRole().name());
-		return new UserDetailsImpl(user.getId(), user.getEmail(), user.getNom() , user.getPrenom(), user.getPassword(), user.getTelephone(), user.getAdresse(), user.getDate_naissance(),user.getDetailsUser(), authority );
+		return new UserDetailsImpl(user.getId(), user.getEmail(), user.getNom() , user.getPrenom(), user.getPassword(), user.getTelephone(), user.getAdresse(), user.getDate_naissance(),user.getDetailsUser(),user.getPhoto(), authority );
 	}
 
 

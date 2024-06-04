@@ -1,6 +1,8 @@
 package com.example.spring.camping.servicesImpl;
 
 import java.security.SecureRandom;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,10 +48,10 @@ public class UserServiceImpl implements ICrud<User>  {
 		if (utilRepo.existsByEmail(addUserRequest.getEmail())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error : Email is already taken ! ")) ;
 		}
-
+        addUserRequest.setDate_inscription(Date.valueOf(LocalDate.now()));
 		// add new user
 		User user = new User (addUserRequest.getFirstName() , addUserRequest.getLastName() ,
-				addUserRequest.getEmail() , addUserRequest.getAdresse(), addUserRequest.getDate_naissance(),addUserRequest.getTelephone(),encoder.encode(addUserRequest.getPassword()));
+				addUserRequest.getEmail() , addUserRequest.getAdresse(), addUserRequest.getDate_naissance(), addUserRequest.getDate_inscription(), addUserRequest.getTelephone(),encoder.encode(addUserRequest.getPassword()));
 
 		String strRole="";
 		strRole = addUserRequest.getRole();
@@ -103,7 +105,7 @@ public class UserServiceImpl implements ICrud<User>  {
 
 				+ "Cordialement,\n"
 				+ "Notre équipe");
-		javaMailSender.send(mail);
+		//javaMailSender.send(mail);
 		user.setStatus(true);
 		utilRepo.save(user);
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

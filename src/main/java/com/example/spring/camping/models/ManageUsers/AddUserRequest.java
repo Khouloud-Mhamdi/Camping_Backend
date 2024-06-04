@@ -26,6 +26,9 @@ public class AddUserRequest {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date date_naissance  ;
 
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private Date date_inscription   ;
+
 	private Long telephone ; 
 	
 	private String role ;

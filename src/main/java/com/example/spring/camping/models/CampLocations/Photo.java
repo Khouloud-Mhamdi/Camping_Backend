@@ -1,5 +1,6 @@
         package com.example.spring.camping.models.CampLocations;
 
+import com.example.spring.camping.models.ManageUsers.User;
 import com.example.spring.camping.models.boutique.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -34,6 +35,11 @@ public class Photo {
     @OneToOne
     @JsonIgnore
     private Product product;
+
+    @OneToOne
+    @JsonIgnore
+    private User user;
+
 
     public Photo(String original_filename, String url, String public_id) {
         this.imageId=public_id;
