@@ -79,6 +79,13 @@ public class ActiviteController {
     //    return new ResponseEntity<>(activite, HttpStatus.OK);
     //}
 
+
+
+    @GetMapping("/getPrixActiviteByMonth")
+    public List<Float> getPrixActiviteByMonth() {
+      return  activiteService.getPrixActiviteByMonth();
+    }
+
 }
 
 

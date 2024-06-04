@@ -5,16 +5,18 @@ import com.example.spring.camping.respositories.ActiviteRepository.ActiviteRepos
 import com.example.spring.camping.services.ActiviteServices.ActiviteService;
 import com.example.spring.camping.services.ActiviteServices.ICRUD;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class ActiviteServiceImpl implements ActiviteService<Activite> {
-
-    private ActiviteRepository activiteRepository;
+  @Autowired
+     ActiviteRepository activiteRepository;
 
     @Override
     public Activite ajoutActivite(Activite o) {
@@ -89,9 +91,20 @@ public class ActiviteServiceImpl implements ActiviteService<Activite> {
         return null;
     }
 
-   // @Override
+
+    @Override
+    public List<Float> getPrixActiviteByMonth() {
+        List<Float> data = new ArrayList<>();
+        for (int i = 1; i <= 12; i++) {
+            Float result = activiteRepository.getPrixActiviteByMonth(i);
+            data.add(result != null ? result : 0.0F);
+        }
+        return data;
+    }
+    }
+
+    // @Override
     //public Activite trouverActiviteAvecPlusParticipants() {
     //    return activiteRepository.findTopByOrderByParticipantsDesc();
     //}
 
-}
