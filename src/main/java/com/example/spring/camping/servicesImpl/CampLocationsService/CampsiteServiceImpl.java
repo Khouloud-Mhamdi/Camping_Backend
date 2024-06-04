@@ -1,11 +1,13 @@
 package com.example.spring.camping.servicesImpl.CampLocationsService;
 
 import com.example.spring.camping.models.CampLocations.CampSite;
+import com.example.spring.camping.models.CampLocations.Rule;
+import com.example.spring.camping.models.CampLocations.Status;
 import com.example.spring.camping.respositories.CampSiteRepositories.CampsiteRepository;
 import com.example.spring.camping.respositories.CampSiteRepositories.DetailCampSiteRepository;
 import com.example.spring.camping.respositories.CampSiteRepositories.PhotoRepository;
 import com.example.spring.camping.respositories.CampSiteRepositories.RuleRepository;
-import com.example.spring.camping.services.CampsiteService;
+import com.example.spring.camping.services.CampsitesService.CampsiteService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,9 +38,10 @@ public class CampsiteServiceImpl implements CampsiteService {
 
 
     @Override
-    public CampSite add(CampSite o) {
+    public CampSite add(CampSite o,long id_user) {
         o.setArchived(false);
-        o.setStatus(false);
+        o.setStatus(Status.pending);
+        o.setId_user(id_user);
         return campsiteRepo.save(o);
     }
 
@@ -54,6 +57,26 @@ public class CampsiteServiceImpl implements CampsiteService {
         return campsiteRepo.save(o);
     }
 
+    //sénario admin approuver
+    @Override
+    public CampSite updateCampsiteforAdminApprove(Long id_camp) {
+        CampSite campSite=campsiteRepo.findById(id_camp).get();
+        campSite.setStatus(Status.approuved);
+        campsiteRepo.save(campSite);
+        return campSite ;
+    }
+
+
+    //sénario admin desapprouver
+    @Override
+    public CampSite updateCampsiteforAdminDis(Long id_camp) {
+
+        CampSite campSite=campsiteRepo.findById(id_camp).get();
+        campSite.setStatus(Status.disapproved);
+        campsiteRepo.save(campSite);
+        return campSite ;
+    }
+    //pour l'affichage lel user
     @Override
     public String checkMaxPlaces(Long id) {
         CampSite campSite=campsiteRepo.findById(id).get();
@@ -77,5 +100,22 @@ public class CampsiteServiceImpl implements CampsiteService {
 
         return 0.0f;
     }
+//implementation for retrieving all campsites by user id
+    @Override
+    public List<CampSite> findcampsitesbyuser(Long id_user) {
+
+        return campsiteRepo.findcampsitesbyuser(id_user);
+    }
+
+    @Override
+    public List<CampSite> findpendingcampsitesforadmin() {
+        return campsiteRepo.findpendingcampsitesforadmin();
+    }
+
+    @Override
+    public List<Rule> findAllByDetailCampSite(Long id_detail) {
+        return campsiteRepo.findAllByDetailCampSite_Detailcampid(id_detail);
+    }
+
 
 }

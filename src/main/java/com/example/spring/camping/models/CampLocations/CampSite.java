@@ -1,8 +1,6 @@
 
+
 package com.example.spring.camping.models.CampLocations;
-
-
-
 
 import com.example.spring.camping.models.CampLocations.Rule;
 import com.example.spring.camping.models.ManageUsers.TypePaysage;
@@ -36,7 +34,6 @@ public class CampSite {
     String lieu;
     String region;
     float prix;
-    boolean status;
     int places;
     LocalDate date_prevu;
     boolean isArchived;
@@ -47,18 +44,23 @@ public class CampSite {
 
     @Enumerated(EnumType.STRING)
     TypePaysage paysage;
-
-    @ManyToMany
-    Set<Rule>rules;
-
-    @OneToOne
-
+  /**  @ManyToMany  (cascade = CascadeType.ALL)
     @JsonIgnore
-    DetailCampSite detailCampSite;
-    @OneToMany(mappedBy = "campSite",cascade = CascadeType.ALL)
-    List<Reservation> reservationList;
+    Set<Rule>rules;**/
+
+
+  @Enumerated(EnumType.STRING)
+  Status status;
+
+    @OneToMany(mappedBy = "campSite")
+    Set<Rule> rules;
+
     @OneToOne
-    Check_In checkIn;
+            //hedhi tetnaha
+    //@JsonIgnore
+    DetailCampSite detailCampSite;
+
+    long id_user;
 
 
 }

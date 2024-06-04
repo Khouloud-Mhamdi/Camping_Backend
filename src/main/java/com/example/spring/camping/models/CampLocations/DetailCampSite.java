@@ -30,7 +30,6 @@ public class DetailCampSite {
 
     @OneToMany(mappedBy = "detailCampSites")
 
-    @JsonIgnore
     Set<Photo> photos;
 
     @OneToOne(mappedBy = "detailCampSite")
