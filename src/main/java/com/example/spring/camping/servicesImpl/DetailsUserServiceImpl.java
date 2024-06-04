@@ -133,7 +133,7 @@ public class DetailsUserServiceImpl implements ICrud<DetailsUser> {
 
         // Find products with the same names that the user has not purchased
         for (String productName : productNames) {
-            List<Product> products = productRepository.findByNomProduct(productName);
+            List<Product> products = productRepository.findByNomProductSearch(productName);
             for (Product product : products) {
                 if (!purchasedProductIds.contains(product.getIdProduct())) {
                     recommendedProducts.add(product);

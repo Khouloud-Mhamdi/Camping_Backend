@@ -32,7 +32,7 @@ public class Commande implements Serializable {
     private String payment_token;
     private long transaction;
     private Long idUtilisateur;
-    @OneToMany(mappedBy = "idProduct")
+    @OneToMany(mappedBy = "idProduct",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Product> products;
 }

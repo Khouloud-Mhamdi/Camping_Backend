@@ -15,7 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class LigneDeCommande implements Serializable {
     @EmbeddedId
-    private LigneDeCommandeId id_LigneDeCommande;
+    private LigneDeCommandeId idLigneDeCommande;
     private int quantiter;
     private Long prix_Unitaire;
     @Enumerated(EnumType.STRING)

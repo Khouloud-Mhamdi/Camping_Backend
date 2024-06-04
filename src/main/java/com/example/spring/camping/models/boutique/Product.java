@@ -29,7 +29,8 @@ public class Product implements Serializable {
     private TypeProduct product_Type;
     private int quantiter;
     private long prix;
-
+    private long prixdachat ;
+    private boolean archiver;
     @ManyToOne
     private CategoriesProduct id_Categorie;
     @OneToMany(mappedBy = "id_Commande")

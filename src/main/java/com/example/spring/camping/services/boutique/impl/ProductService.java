@@ -1,17 +1,13 @@
 package com.example.spring.camping.services.boutique.impl;
 
 
-import com.example.spring.camping.models.TypeProduct;
 import com.example.spring.camping.models.boutique.Product;
 import com.example.spring.camping.respositories.boutique.ProductRepository;
 import com.example.spring.camping.services.boutique.IProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,7 +16,7 @@ public class ProductService implements IProductService {
     ProductRepository productRepository;
     @Override
     public List<Product> retrieveAllProduct() {
-        return productRepository.findAll();
+        return productRepository.findAll().stream().filter(product -> !product.isArchiver()).collect(Collectors.toList());
     }
 
     @Override
@@ -38,6 +34,10 @@ public class ProductService implements IProductService {
         return productRepository.findById(idProduct).orElse(null);
     }
 
-
-
+    @Override
+    public void deleteProduct(Long idProduct) {
+        Product product = productRepository.getById(idProduct);
+        product.setArchiver(true);
+        productRepository.save(product);
+    }
 }
