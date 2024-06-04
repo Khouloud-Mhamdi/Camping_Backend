@@ -15,6 +15,8 @@ public interface ICommandeService {
     Commande retrieveCommande(Long idCommande);
     void deleteCommande(Long idCommande);
     float getProfit();
+    public float getProfitwithType(TypeProduct type) ;
+
     Double findTotalSalesBetweenDates(Date startDate, Date endDate, TypeProduct t);
 
     Long countSalesBetweenDates(Date startDate,Date endDate, TypeProduct t);

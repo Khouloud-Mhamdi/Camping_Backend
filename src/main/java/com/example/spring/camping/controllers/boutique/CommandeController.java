@@ -9,6 +9,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +45,10 @@ public class CommandeController {
         return commandeService.getProfit();
     }
 
+    @GetMapping("/getProfitbyType/{type}")
+    public float getProfitbyType(@PathVariable("type") TypeProduct type) {
+        return commandeService.getProfitwithType(type);
+    }
     @GetMapping("/retrieve-commandes/{commandes-id}")
     public Commande retrieveCommande(@PathVariable("commandes-id") Long commandesId) {
         return commandeService.retrieveCommande(commandesId);

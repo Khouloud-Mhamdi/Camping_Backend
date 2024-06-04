@@ -96,8 +96,13 @@ public class CommandeService implements ICommandeService {
 
     @Override
     public float getProfit() {
+         return Math.abs(productRepository.getSumPrixdvente()-productRepository.getSumPrixdachat());
+    }
 
-        return Math.abs(productRepository.getSumPrixdvente()-productRepository.getSumPrixdachat());
+    @Override
+    public float getProfitwithType(TypeProduct type) {
+
+        return Math.abs(productRepository.getSumPrixdvente(type)-productRepository.getSumPrixdachat(type));
     }
 
     @Override

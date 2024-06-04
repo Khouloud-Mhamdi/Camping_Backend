@@ -11,10 +11,14 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product,Long> {
     Product findByNomProduct(String product);
 
+    @Query("SELECT sum(pd.idLigneDeCommande.product.prixdachat)  FROM Commande c,LigneDeCommande pd WHERE pd.idLigneDeCommande.commande.id_Commande=c.id_Commande And c.type_Commande=:typeproduct" )
+    float getSumPrixdachat(TypeProduct typeproduct);
     @Query("SELECT sum(pd.idLigneDeCommande.product.prixdachat)  FROM Commande c,LigneDeCommande pd WHERE pd.idLigneDeCommande.commande.id_Commande=c.id_Commande" )
     float getSumPrixdachat();
+    @Query("SELECT sum(pd.idLigneDeCommande.product.prix)  FROM Commande c,LigneDeCommande pd WHERE pd.idLigneDeCommande.commande.id_Commande=c.id_Commande And c.type_Commande=:typeproduct" )
+    float getSumPrixdvente(TypeProduct typeproduct);
 
-    @Query("SELECT sum(pd.idLigneDeCommande.product.prix)  FROM Commande c,LigneDeCommande pd WHERE pd.idLigneDeCommande.commande.id_Commande=c.id_Commande" )
+    @Query("SELECT sum(pd.idLigneDeCommande.product.prix)  FROM Commande c,LigneDeCommande pd WHERE pd.idLigneDeCommande.commande.id_Commande=c.id_Commande " )
     float getSumPrixdvente();
 
 
