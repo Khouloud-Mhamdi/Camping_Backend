@@ -1,9 +1,11 @@
 package com.example.spring.camping.models.Activites;
 
+import com.example.spring.camping.models.Reservation.Reservation;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 
 @Entity
@@ -19,7 +21,7 @@ public class Activite implements Serializable {
 
     private String NomActivite;
     private String Description;
-    private String Date;
+    private LocalDate Date;
     private long Participants;
     private String Lieu;
     private boolean Status;
@@ -32,5 +34,8 @@ public class Activite implements Serializable {
 
     @ManyToOne
     public CategorieActivite categorieactivite;
+
+    @ManyToOne
+    private Reservation reservation;
 
 }

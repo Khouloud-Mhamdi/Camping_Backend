@@ -20,7 +20,7 @@ public interface IReservationService {
 
     public String cancelReservation(Long idReservation);
     public String confirmReservation(Long idReservation);
-    public boolean checkAvailability(Date startDate, Date endDate);
+    public String checkAvailability(Date startDate, Date endDate, long campsiteId);
 
 
     public Long idUserQuiaPlusDeReservation();
@@ -32,8 +32,10 @@ public interface IReservationService {
     public int getCampsite();
     public int getUser();
     public int getFutureReservations();
-    public int nbrReservationInprogress();
+    int getOldReservations();
 
 
     List<Integer> getNbrReservationByMonth();
+
+    Reservation reserver(Reservation reservation,long campsiteId);
 }

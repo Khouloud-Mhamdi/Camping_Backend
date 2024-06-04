@@ -1,7 +1,11 @@
-        package com.example.spring.camping.models.CampLocations;
-
+package com.example.spring.camping.models.CampLocations;
+import com.example.spring.camping.models.CampLocations.DetailCampSite;
 import com.example.spring.camping.models.ManageUsers.User;
 import com.example.spring.camping.models.boutique.Product;
+
+
+
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,6 +13,8 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 
 @Entity
+
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -24,13 +30,19 @@ public class Photo {
     Long photoId;
     byte[] image;
 
+
+    //cloudinary part
+
 //cloudinary part
+
     String imageUrl;
     String imageId;
     String name;
 
     @ManyToOne
+    @JsonIgnore
     private DetailCampSite detailCampSites;
+
 
     @OneToOne
     @JsonIgnore

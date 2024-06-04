@@ -4,4 +4,7 @@ import java.io.Serializable;
 
 public enum TypeProduct implements Serializable {
     RENTABLE,SELLABLE
+
 }
+
+

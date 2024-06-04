@@ -18,17 +18,27 @@ public class RuleController {
 
     RuleServiceImpl ruleService;
 
-    @PostMapping("/add")
-    public Rule addRole (@RequestBody Rule rule){
-        return ruleService.add(rule);
+    @PostMapping("/add/{id_camp}")
+    public Rule addRule (@RequestBody Rule rule,@PathVariable Long id_camp){
+        return ruleService.add(rule,id_camp);
     }
-
+ /*
+    //ajout+ affectation rule to campsite
+    @PostMapping("/add/{campsite_id}")
+    public Rule addRole (@RequestBody Rule rule,@PathVariable Long campsite_id){
+        return ruleService.addRuleToCampsite(rule,campsite_id);
+    }
+*/
 
     @GetMapping("/Consulter")
     public List<Rule> ListerRules() {
         return ruleService.getAll();
     }
 
+    @GetMapping("/consulter/{id_camp}")
+    public List<Rule> ListerRulesByCampsites(@PathVariable Long id_camp) {
+        return ruleService.findAllByCampSite(id_camp);
+    }
     @GetMapping("Rechercher/{id}")
     public Rule ConsulterURule(@PathVariable Long id) {
         return ruleService.getById(id);

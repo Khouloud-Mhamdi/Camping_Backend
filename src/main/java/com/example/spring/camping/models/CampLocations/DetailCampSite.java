@@ -18,6 +18,8 @@ public class DetailCampSite {
 
 
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long detailcampid;
@@ -27,11 +29,13 @@ public class DetailCampSite {
     LocalTime heureDepart;
 
     @OneToMany(mappedBy = "detailCampSites")
-            @JsonIgnore
+
     Set<Photo> photos;
 
     @OneToOne(mappedBy = "detailCampSite")
-            @JsonIgnore
+    @JsonIgnore
     CampSite campSite;
 
 }
+
+

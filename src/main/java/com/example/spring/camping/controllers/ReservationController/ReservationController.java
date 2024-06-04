@@ -35,11 +35,7 @@ public class ReservationController {
     public  Reservation updateReservation(@PathVariable("id") Long idReservation,@RequestBody Reservation newReservationDetails)  {
         return reservationService.updateReservation(idReservation,newReservationDetails);
     }
-    @PutMapping("/archiveReservation/{id}")
-    @ResponseBody
-    public void archiveReservation(@PathVariable("id") Long idReservation) {
-        reservationService.archiveReservation(idReservation);
-    }
+
     @GetMapping("/getAll")
     @ResponseBody
     public List<Reservation> getAllReservation() {
@@ -51,11 +47,7 @@ public class ReservationController {
     public void deleteReservation(@PathVariable("id") Long idReservation) {
         reservationService.deleteReservation (idReservation);
     }
-    @PutMapping("/cancel/{idReservation}")
-    public ResponseEntity<String> cancelReservation(@PathVariable Long idReservation) {
-        String status = reservationService.cancelReservation(idReservation);
-        return ResponseEntity.ok(status);
-    }
+
 
     @PutMapping("/confirm/{idReservation}")
     public ResponseEntity<String> confirmReservation(@PathVariable Long idReservation) {
@@ -65,14 +57,12 @@ public class ReservationController {
 
 
     @GetMapping("/reservations/overlapping/{startDate}/{endDate}")
-    public boolean findReservations(
+    public String findReservations(
             @PathVariable("startDate") Date startDate,
-            @PathVariable("endDate") Date endDate) {
-        return reservationService.checkAvailability(startDate,endDate);
+            @PathVariable("endDate") Date endDate,
+            @PathVariable("ID") long campsiteId) {
+        return reservationService.checkAvailability(startDate,endDate,campsiteId);
     }
-
-
-
 
     @GetMapping("/reservations/getReservationsByStartDate")
     List<Reservation> getReservationsByStartDate(){
@@ -96,10 +86,10 @@ public class ReservationController {
         return reservationService.getUser();
     }
 
-    @GetMapping("/reservations/nbrReservationInprogress")
-    public int nbrReservationInprogress(){
+    @GetMapping("/reservations/getOldReservations()")
+    public int getOldReservations(){
 
-        return reservationService.nbrReservationInprogress();
+        return reservationService.getOldReservations();
     }
     @GetMapping("/reservations/findcampsites")
     public int findcampsites(){
@@ -108,6 +98,12 @@ public class ReservationController {
     @GetMapping("/reservations/getNbrReservationByMonth")
     public List<Integer> getNbrReservationByMonth(){
         return reservationService.getNbrReservationByMonth();
+    }
+
+    @PostMapping("/reserver/{campsiteId}")
+    @ResponseBody
+    public Reservation reserver(@RequestBody Reservation reservation,@PathVariable("campsiteId")long campsiteId) {
+        return  reservationService.reserver(reservation,campsiteId);
     }
 }
 

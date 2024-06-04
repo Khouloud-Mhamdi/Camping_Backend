@@ -1,6 +1,7 @@
 package com.example.spring.camping.services.ActiviteServices;
 
 import com.example.spring.camping.models.Activites.Activite;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,4 +23,6 @@ public interface ActiviteService<Activite> {
         List<Activite> rechercheActivites (String critere );
         Activite annulerActivite (Activite a);
        // Activite trouverActiviteAvecPlusParticipants();
+
+        List<Float> getPrixActiviteByMonth();
 }
