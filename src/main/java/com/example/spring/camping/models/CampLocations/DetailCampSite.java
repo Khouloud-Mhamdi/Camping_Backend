@@ -16,6 +16,10 @@ import java.util.Set;
 @FieldDefaults(level= AccessLevel.PRIVATE)
 public class DetailCampSite {
 
+
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long detailcampid;
@@ -25,6 +29,7 @@ public class DetailCampSite {
     LocalTime heureDepart;
 
     @OneToMany(mappedBy = "detailCampSites")
+
     @JsonIgnore
     Set<Photo> photos;
 
@@ -33,3 +38,5 @@ public class DetailCampSite {
     CampSite campSite;
 
 }
+
+

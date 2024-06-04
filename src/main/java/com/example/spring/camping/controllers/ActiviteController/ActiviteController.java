@@ -3,6 +3,7 @@ package com.example.spring.camping.controllers.ActiviteController;
 import com.example.spring.camping.models.Activites.Activite;
 
 import com.example.spring.camping.models.Activites.Pre_requis;
+import com.example.spring.camping.models.Reservation.Reservation;
 import com.example.spring.camping.servicesImpl.ActiviteServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -81,10 +82,12 @@ public class ActiviteController {
 
 
 
+
     @GetMapping("/getPrixActiviteByMonth")
     public List<Float> getPrixActiviteByMonth() {
       return  activiteService.getPrixActiviteByMonth();
     }
+
 
 }
 

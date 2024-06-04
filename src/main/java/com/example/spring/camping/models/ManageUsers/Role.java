@@ -30,7 +30,8 @@ public class Role {
 	private long id;
 
 
-	private String name;
+	private ERole role;
+	private Boolean status ;
 	@JsonIgnore
 	@OneToMany (mappedBy="role")
 	private List<User> Users ;

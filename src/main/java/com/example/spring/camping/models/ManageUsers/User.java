@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import com.example.spring.camping.models.ManageUsers.Role;
+import com.example.spring.camping.models.boutique.Panier;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
@@ -36,15 +37,19 @@ public class User {
 
     private String adresse;
     private Long telephone;
+    private Boolean status ;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date_naissance;
 
+    @OneToOne
+    Panier panier;
     @ManyToOne
     @JoinColumn(name = "ID_ROLE", referencedColumnName = "ID_Role")
     private Role role;
 
-    @OneToOne
+    @OneToOne()
+    @JoinColumn(name = "detailsuser_id", nullable = true)
     private DetailsUser detailsUser;
 
     // Constructor for addUserRequest

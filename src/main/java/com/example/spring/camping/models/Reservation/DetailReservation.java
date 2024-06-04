@@ -26,12 +26,16 @@ public class DetailReservation implements Serializable {
     @DateTimeFormat(pattern = "DD/MM/YYYY")
     private Date dateDepart;
     private Long nombreCampeurs;
+
     @Enumerated(EnumType.STRING)
     private Status statusReservation;
+
     private float prix;
     @OneToOne(mappedBy = "detailReservation")
     @JsonIgnore
     Reservation reservation;
 
 
+
 }
+
