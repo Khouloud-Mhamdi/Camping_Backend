@@ -1,5 +1,6 @@
 package com.example.spring.camping.controllers.ReservationController;
 
+import com.example.spring.camping.models.CampLocations.CampSite;
 import com.example.spring.camping.models.Reservation.Reservation;
 import com.example.spring.camping.services.ReservationService.IReservationService;
 import lombok.AllArgsConstructor;
