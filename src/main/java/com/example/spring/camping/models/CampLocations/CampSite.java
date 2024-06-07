@@ -66,6 +66,10 @@ public class CampSite {
 
     long id_user;
 
+    @OneToMany(mappedBy = "campSite")
+    List<Reservation> reservationList;
+
+
 
 }
 

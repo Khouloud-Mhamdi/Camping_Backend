@@ -31,7 +31,7 @@ public class Reservation implements Serializable {
     private Long idReservation;
     private Long campeurId;
 
-    private Long campsiteId;
+
 
     @OneToOne
     DetailReservation detailReservation;
