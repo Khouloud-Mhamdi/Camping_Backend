@@ -27,8 +27,6 @@ public class DetailReservation implements Serializable {
     private Date dateDepart;
     private Long nombreCampeurs;
 
-    @Enumerated(EnumType.STRING)
-    private Status statusReservation;
 
     private float prix;
     @OneToOne(mappedBy = "detailReservation")
