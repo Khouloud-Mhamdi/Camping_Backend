@@ -57,7 +57,7 @@ public class ReservationController {
 
 
     @GetMapping("/reservations/overlapping/{startDate}/{endDate}")
-    public String findReservations(
+    public boolean findReservations(
             @PathVariable("startDate") Date startDate,
             @PathVariable("endDate") Date endDate,
             @PathVariable("ID") long campsiteId) {
@@ -100,10 +100,18 @@ public class ReservationController {
         return reservationService.getNbrReservationByMonth();
     }
 
-    @PostMapping("/reserver/{campsiteId}")
+    @PostMapping("/reserver/{campsiteId}/{campeurId}")
     @ResponseBody
-    public Reservation reserver(@RequestBody Reservation reservation,@PathVariable("campsiteId")long campsiteId) {
-        return  reservationService.reserver(reservation,campsiteId);
+    public Reservation reserver(@RequestBody Reservation reservation,@PathVariable("campsiteId")long campsiteId,@PathVariable("campsiteId")long campeurId) {
+        return  reservationService.reserver(reservation,campsiteId,campeurId);
+    }
+
+
+
+    @PostMapping("/reserverActivite/{campeurId}")
+    @ResponseBody
+    Reservation reserverActivite(@RequestParam  List<Long> activiteListId,@PathVariable("campeurId") long campeurId,@RequestBody Reservation res )  {
+        return  reservationService.reserverActivite(activiteListId,campeurId,res);
     }
 }
 

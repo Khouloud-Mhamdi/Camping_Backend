@@ -1,5 +1,6 @@
 package com.example.spring.camping.services.ReservationService;
 
+import com.example.spring.camping.models.Activites.Activite;
 import com.example.spring.camping.models.Reservation.Reservation;
 
 import java.util.Date;
@@ -20,7 +21,7 @@ public interface IReservationService {
 
     public String cancelReservation(Long idReservation);
     public String confirmReservation(Long idReservation);
-    public String checkAvailability(Date startDate, Date endDate, long campsiteId);
+    public boolean checkAvailability(Date startDate, Date endDate, long campsiteId);
 
 
     public Long idUserQuiaPlusDeReservation();
@@ -37,5 +38,7 @@ public interface IReservationService {
 
     List<Integer> getNbrReservationByMonth();
 
-    Reservation reserver(Reservation reservation,long campsiteId);
+    Reservation reserver(Reservation reservation,long campsiteId, long campeurId);
+
+    Reservation reserverActivite(List<Long> activiteListId,long campeurId,Reservation res);
 }

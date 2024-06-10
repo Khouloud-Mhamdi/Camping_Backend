@@ -1,11 +1,13 @@
 package com.example.spring.camping.models.Activites;
 
 import com.example.spring.camping.models.Reservation.Reservation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Entity
@@ -34,8 +36,8 @@ public class Activite implements Serializable {
 
     @ManyToOne
     public CategorieActivite categorieactivite;
-
-    @ManyToOne
-    private Reservation reservation;
+    @JsonIgnore
+    @ManyToMany
+    private List<Reservation> ListReservation;
 
 }

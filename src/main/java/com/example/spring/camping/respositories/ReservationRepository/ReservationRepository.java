@@ -28,4 +28,5 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
     @Query("SELECT MONTH(r.detailReservation.dateArrivee), COUNT(r) FROM Reservation r GROUP BY MONTH(r.detailReservation.dateArrivee)")
     List<Object[]> getNbrReservationByMonth();
 
+   void  deleteById(Long idReservation);
 }

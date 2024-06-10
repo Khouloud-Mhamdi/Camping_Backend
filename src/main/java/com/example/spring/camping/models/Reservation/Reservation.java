@@ -36,7 +36,8 @@ public class Reservation implements Serializable {
     @OneToOne
     DetailReservation detailReservation;
 
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "reservation")
+
+    @ManyToMany(fetch = FetchType.EAGER , mappedBy = "ListReservation",cascade = CascadeType.ALL)
     private List<Activite> activites;
 
 
@@ -44,7 +45,7 @@ public class Reservation implements Serializable {
     @ManyToOne
     CampSite campSite;
 
-
+    @JsonIgnore
     @OneToOne
     Check_In check_in;
 

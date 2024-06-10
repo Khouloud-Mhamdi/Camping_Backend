@@ -8,5 +8,5 @@ import java.util.Date;
 public interface Check_InRepo extends JpaRepository<Check_In,Long> {
 
 
-    Check_In findByDateAndCampSite_Campsiteid(Date date, long campsiteId);
+    Check_In findByDateAndAndCampSiteId(Date date, long campsiteId);
 }

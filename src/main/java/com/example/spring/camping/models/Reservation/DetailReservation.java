@@ -30,7 +30,7 @@ public class DetailReservation implements Serializable {
 
 
     private float prix;
-    @OneToOne(mappedBy = "detailReservation")
+    @OneToOne(mappedBy = "detailReservation", cascade = CascadeType.ALL)
     @JsonIgnore
     Reservation reservation;
 

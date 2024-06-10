@@ -1,9 +1,11 @@
 package com.example.spring.camping.servicesImpl.ReservationServiceImpl;
 
+import com.example.spring.camping.models.Activites.Activite;
 import com.example.spring.camping.models.CampLocations.CampSite;
 import com.example.spring.camping.models.Reservation.Check_In;
 import com.example.spring.camping.models.Reservation.DetailReservation;
 import com.example.spring.camping.models.Reservation.Reservation;
+import com.example.spring.camping.respositories.ActiviteRepository.ActiviteRepository;
 import com.example.spring.camping.respositories.CampSiteRepositories.CampsiteRepository;
 import com.example.spring.camping.respositories.ReservationRepository.Check_InRepo;
 import com.example.spring.camping.respositories.ReservationRepository.DetailRepository;
@@ -32,7 +34,7 @@ public class ReservationService implements IReservationService {
 
     DetailRepository detailRepository;
     Check_InRepo checkInRepo;
-
+   ActiviteRepository activiteRepository;
    CampsiteRepository campsiteRepository;
 
     @Override
@@ -118,7 +120,7 @@ public class ReservationService implements IReservationService {
     }
 
     @Override
-    public String checkAvailability(Date startDate, Date endDate, long campsiteId) {
+    public boolean checkAvailability(Date startDate, Date endDate, long campsiteId) {
 
         CampSite campSite=campsiteRepository.findById(campsiteId).get();
 
@@ -127,13 +129,13 @@ public class ReservationService implements IReservationService {
         for (Check_In checkIn:checkInRepo.findAll()){
             if (checkIn.getNbPlaceDispo()==0){
 
-                return "la date :"+ date +"n'est pas disponible";
+                return false;
 
             }
         }}
 
 
-        return "la date est disponible ";
+        return true;
     }
 
     @Override
@@ -244,42 +246,79 @@ public class ReservationService implements IReservationService {
     }
 
     @Override
-    public Reservation reserver(Reservation reservation,long campsiteId) {
-        Reservation savedReservation=reservation;
+    public Reservation reserver(Reservation reservation, long campsiteId,long campeurId) {
+        // Save the reservation first to ensure it is not in a transient state
 
-        CampSite campSite=campsiteRepository.findById(campsiteId).get();
 
+        Reservation savedReservation = addReservation(reservation);
+        savedReservation.setCampeurId(campeurId);
+
+        // Fetch the campsite by its ID
+        CampSite campSite = campsiteRepository.findById(campsiteId).get();
+
+        // Get the list of dates between the arrival and departure dates
         List<Date> reservationDates = getDatesBetween(savedReservation.getDetailReservation().getDateArrivee(), savedReservation.getDetailReservation().getDateDepart());
+        Float prix =reservationDates.size()*campSite.getPrix()*savedReservation.getDetailReservation().getNombreCampeurs();
+        savedReservation.getDetailReservation().setPrix(prix);
+        // Iterate over each date in the reservation period
+        for (Date date : reservationDates) {
+            // Check if a check-in record already exists for the given date and campsite
+            Check_In existingCheckIn = checkInRepo.findByDateAndAndCampSiteId(date, campsiteId);
 
-
-            // If no existing reservation details, create new check-in entries
-            for (Date date : reservationDates) {
-                if (checkInRepo.findByDateAndCampSite_Campsiteid(date,campsiteId) == null) {
+            if (existingCheckIn == null) {
+                // If no existing check-in, create a new check-in entry
                 Check_In checkIn = new Check_In();
-                checkIn.setCampSite(campsiteRepository.findById(campsiteId).get());
+                checkIn.setCampSiteId(campsiteId);
                 checkIn.setNbPlaceDispo(campSite.getPlaces() - savedReservation.getDetailReservation().getNombreCampeurs());
                 checkIn.setDate(date);
                 checkIn.setReservation(savedReservation);
                 checkInRepo.save(checkIn);
+                savedReservation.setCheck_in(checkIn);
+            } else {
+                // If there is an existing check-in, update the check-in entry
+                if (existingCheckIn.getNbPlaceDispo()-savedReservation.getDetailReservation().getNombreCampeurs() < 0) {
 
-               } else {
-
-            // If there are existing reservation details, update check-in entries
-
-
-                Check_In checkIn = checkInRepo.findByDateAndCampSite_Campsiteid(date,campsiteId);
-                if (checkIn.getNbPlaceDispo() == 0) {
-                    return null; // No available places for the given date
+                    reservationRepository.deleteById(savedReservation.getIdReservation()); // No available places for the given date
+                    detailRepository.deleteById(savedReservation.getDetailReservation().getDetailResID());
+                    return null;
                 } else {
-
-                    checkIn.setNbPlaceDispo(checkIn.getNbPlaceDispo() - savedReservation.getDetailReservation().getNombreCampeurs());
-                    checkInRepo.save(checkIn);
+                    existingCheckIn.setNbPlaceDispo(existingCheckIn.getNbPlaceDispo() - savedReservation.getDetailReservation().getNombreCampeurs());
+                    checkInRepo.save(existingCheckIn);
+                    savedReservation.setCheck_in(existingCheckIn);
                 }
             }
-            addReservation(savedReservation);
         }
         return savedReservation;
     }
+
+    @Override
+    public Reservation reserverActivite(List<Long> activiteListId, long campeurId,Reservation res ) {
+        float prix=0;
+        List<Activite> ListActivite= new ArrayList<>();
+        List<Reservation> ress= new ArrayList<>();
+        ress.add(res);
+        addReservation(res);
+        for (Long a : activiteListId){
+            Activite activite = activiteRepository.findById(a).get();
+            if (activite.getParticipants()-res.getDetailReservation().getNombreCampeurs()>0){
+                ListActivite.add(activite);
+                prix=activite.getPrix()+prix;
+
+                activite.setListReservation(ress);
+            }else {
+                return  null;
+            }
+
+        }
+        res.getDetailReservation().setPrix(prix);
+        res.setActivites(ListActivite);
+        res.setCampeurId(campeurId);
+        Reservation reservation=addReservation(res);
+
+        return reservation;
+    }
+
+
 
 
 }

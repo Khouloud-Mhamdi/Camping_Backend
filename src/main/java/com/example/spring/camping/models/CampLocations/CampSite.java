@@ -46,8 +46,7 @@ public class CampSite {
     TypePaysage paysage;
 
 
-    @OneToOne
-    Check_In checkIn;
+
   /**  @ManyToMany  (cascade = CascadeType.ALL)
     @JsonIgnore
     Set<Rule>rules;**/

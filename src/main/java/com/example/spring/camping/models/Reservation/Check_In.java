@@ -24,9 +24,9 @@ public class Check_In implements Serializable {
     private Long idCheck;
     private Date date;
     private Long nbPlaceDispo;
-    @OneToOne(mappedBy = "check_in")
+    @OneToOne(mappedBy = "check_in", cascade = CascadeType.ALL)
     Reservation reservation;
-    @OneToOne(mappedBy = "checkIn")
-    CampSite campSite;
+
+    Long campSiteId;
 
 }
